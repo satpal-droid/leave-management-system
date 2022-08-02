@@ -85,18 +85,15 @@ public class LeaveManageController {
 
 	return mav;
     }
-
-
-
 	@RequestMapping(value = "/user/apply-leave", method = RequestMethod.POST)
     public ModelAndView submitApplyLeave(ModelAndView mav, @Valid LeaveDetails leaveDetails,
 	    BindingResult bindingResult,HttpServletRequest request) {
 
 	UserInfo userInfo = userInfoService.getUserInfo();
-	Integer totalLeaves = leaveManageRepository.totalLeaves();
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	UserInfo userInfo1 = userInfoService.findUserByEmail(auth.getName());
 	request.getSession().setAttribute("userInfo", userInfo);
+	Integer totalLeaves = leaveManageRepository.totalLeaves();
     Integer activeLeaves = leaveManageService.countAllLeaves(userInfo1.getEmail());
 	if(activeLeaves==null){
      activeLeaves=0;		

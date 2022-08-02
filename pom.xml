@@ -4,10 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.lms</groupId>
-	<artifactId>leave-management-system</artifactId>
+	<artifactId>lms</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
-
 	<name>leave-management-system</name>
 	<description>Leave Management System</description>
 
@@ -50,7 +49,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -61,12 +59,6 @@
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<exclusions>
-        <exclusion>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-        </exclusion>
-    </exclusions>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -95,15 +87,15 @@
         <artifactId>mysql-connector-java</artifactId>
          </dependency> -->
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>       				
+                       <finalName>lms</finalName>
+			    </configuration>
 			</plugin>
 		</plugins>
 	</build>
-
-
 </project>

@@ -21,7 +21,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * different live scenarios. It exends WebSecurityConfigurerAdapter for the same
  * purpose.
  * 
- * @author navinkumark
+ * @author Nk
  *
  */
 @Configuration
@@ -69,7 +69,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	http.authorizeRequests()
 		.antMatchers("/", "/login", "/registration").permitAll().anyRequest()
 		.authenticated().and().csrf().disable().formLogin()
-		.loginPage("/login").failureUrl("/login?error=true")
+		.loginPage("/").failureUrl("/login?error=true")
 		.defaultSuccessUrl("/user/home")
 		.usernameParameter("email")
 		.passwordParameter("password")

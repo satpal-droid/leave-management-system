@@ -26,9 +26,10 @@ import com.lms.service.UserInfoService;
  * This controller will provide the basic operations fo users. Like
  * signing-in,registering a new user.
  * 
- * @author navinkumark
+ * @author nk
  *
  */
+
 @Controller
 public class LoginController {
 
@@ -39,15 +40,13 @@ public class LoginController {
     LeaveManageService leaveManageService;
 
 
-
-
     /**
      * This method opens up the login page if user is not authenticated
      * otherwise redirects the user to user home page.
      * 
      * @return
      */
-    @GetMapping("/login")
+    @GetMapping("/")
     public ModelAndView loginn(ModelAndView mav) {
 
         mav.setViewName("login");
