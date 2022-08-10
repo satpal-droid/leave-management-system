@@ -59,7 +59,7 @@
 				<span class="username">Role:</span>
 				<div style="width:  71%;padding:  10px;">
 					<label style="padding-left: 25px;padding-right: 10px;">
-					<!-- <input type="radio" th:field="*{role}" value="MANAGER" checked="checked">MANAGER</label> -->
+					<input type="radio" th:field="*{role}" value="MANAGER" checked="checked">MANAGER</label>
 					<label><input type="radio" th:field="*{role}" value="EMPLOYEE" >EMPLOYEE</label> 
 				</div>
 				<label class="alert-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}" ></label>

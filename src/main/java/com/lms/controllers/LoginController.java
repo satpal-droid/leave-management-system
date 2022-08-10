@@ -2,7 +2,6 @@ package com.lms.controllers;
 
 
 import java.util.Random;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.json.JSONException;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import com.lms.EmailService.EmailSenderService;
 import com.lms.models.UserInfo;
 
 import com.lms.service.LeaveManageService;
@@ -42,6 +41,10 @@ public class LoginController {
 
     @Autowired
     LeaveManageService leaveManageService;
+
+    @Autowired
+    EmailSenderService emailSenderService;
+
 
 
     /**
@@ -145,18 +148,11 @@ public class LoginController {
             mv.addObject("message", "Email Id does not exists.Please Enter the Correct Email!");
             mv.setViewName("forgot-password");
         }
-
              Random random = new Random();
              long otp = random.nextInt(99999);
-             
-
-
-
-
-
-
-         mv.setViewName("verify-OTP");
-         return mv;
+             emailSenderService.sendEmail("sam.ahlawat4044@gmail.com","Your OTP", "your otp is "+otp+"");
+             mv.setViewName("verify-OTP");
+             return mv;
     }
     @RequestMapping(value ="/verify-OTP", method = RequestMethod.GET)
     public ModelAndView verifyOTPForm(ModelAndView mv){
