@@ -1,6 +1,8 @@
 package com.lms.controllers;
 
 
+import java.util.Random;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.json.JSONException;
@@ -11,10 +13,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+
 import com.lms.models.UserInfo;
 
 import com.lms.service.LeaveManageService;
@@ -45,8 +49,8 @@ public class LoginController {
      * otherwise redirects the user to user home page.
      * 
      * @return
-     */
-    @GetMapping("/")
+     */ 
+    @GetMapping("/login")
     public ModelAndView loginn(ModelAndView mav) {
 
         mav.setViewName("login");
@@ -103,7 +107,7 @@ public class LoginController {
 	    userInfoService.saveUser(userInfo);
 	    mav.addObject("successMessage", "User registered successfully! Awaiting for Manager approval!!");
 	    mav.addObject("userInfo", new UserInfo());
-	    mav.setViewName("registration");
+        mav.setViewName("login");
 	}
 	return mav;
     }
@@ -118,18 +122,54 @@ public class LoginController {
     @RequestMapping(value = "/user/home", method = RequestMethod.GET)
     public ModelAndView home(ModelAndView mav, HttpServletRequest request) throws Exception {
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	UserInfo userInfo = userInfoService.findUserByEmail(auth.getName());
-	request.getSession().setAttribute("userInfo", userInfo);
+	UserInfo userInfo1 = userInfoService.findUserByEmail(auth.getName());
+	request.getSession().setAttribute("userInfo", userInfo1);
+    mav.addObject("userInfo2",userInfo1);
 	mav.setViewName("home");
 	return mav;
     }
 
-    @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
-    public ModelAndView profile(ModelAndView mv, @PathVariable("id") int id){
-        UserInfo userInfo = null;
-        userInfo = userInfoService.getUserById(id);
-        mv.addObject("userInfo", userInfo);
-        return mv;
+    @RequestMapping(value ="/forgot-password", method = RequestMethod.GET)
+    public ModelAndView forgotPasswordForm(ModelAndView mv){
 
+        mv.setViewName("forgotPassword");
+        return mv;
     }
+     
+    @RequestMapping(value ="/forgot-password", method = RequestMethod.POST)
+    public ModelAndView forgotPassword(ModelAndView mv , UserInfo userInfo , @RequestParam("email") String email , BindingResult bindResult ){
+
+        UserInfo userInfo1 = userInfoService.findUserByEmail(email); 
+        // String existsEmail = (userInfo1.getEmail());
+        if(userInfo1==null){
+            mv.addObject("message", "Email Id does not exists.Please Enter the Correct Email!");
+            mv.setViewName("forgot-password");
+        }
+
+             Random random = new Random();
+             long otp = random.nextInt(99999);
+             
+
+
+
+
+
+
+         mv.setViewName("verify-OTP");
+         return mv;
+    }
+    @RequestMapping(value ="/verify-OTP", method = RequestMethod.GET)
+    public ModelAndView verifyOTPForm(ModelAndView mv){
+
+         mv.setViewName("verify-OTP");
+         return mv;
+    }
+    @RequestMapping(value ="/verify-OTP", method = RequestMethod.POST)
+    public ModelAndView verifyOTP(ModelAndView mv){
+
+         mv.setViewName("changePassword");
+         return mv;
+    }
+
+
 }

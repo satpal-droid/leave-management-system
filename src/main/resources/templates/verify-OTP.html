@@ -34,34 +34,25 @@
 		<div align ="center" th:if="${param.error}">
 			<p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
 		</div>
-		<form th:action="@{/login}" method="post">
+		<form th:action="@{/verify-OTP}" method="post">
 			<div class="username">
-				<span class="username">Username:</span>
-				<input type="text" id="email" name="email" class="name" placeholder="" required="">
+				<span class="username">OTP:</span>
+				<input type="text" id="otp" name="otp" class="name" placeholder="Enter Your Otp Here...." required="">
 				<div class="clearfix"></div>
 			</div>
-			<div class="password-agileits">
-				<span class="username">Password:</span>
-				<input type="password" id="password" name="password" class="password" placeholder="" required="">
-				<div class="clearfix"></div>
-			</div>
-			<div class="rem-for-agile">
-				<input type="checkbox" name="remember" class="remember">Remember me<br>
-				<a th:href="@{/forgot-password}">Forgot Password</a><br>
-			</div>
-			<p>
-			<input type="hidden"                          
-			name="${_csrf.parameterName}"  
-			value="${_csrf.token}"/>  
-			<div class="login-w3">
-			</p>
-					<input type="submit" class="login" value="Sign In">
-			</div>
+                <div class="login-w3">               
+                        <input type="submit" class="login" value="Verify OTP">
+                </div>
 			<div class="clearfix"></div>
 		</form>
-			<div class="back">
-				<a th:href="@{/registration}">Register</a>
-			</div>
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                <a th:href="@{/login}">Login</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a th:href="@{/registration}">Register</a>  
+            </li>
+        </ol>
 			<div class="footer">
 				<p>&copy; 2022 PMFME MIS TEAM  . All Rights Reserved</p>
 			</div>

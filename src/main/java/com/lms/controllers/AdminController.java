@@ -1,14 +1,10 @@
 package com.lms.controllers;
 
 import java.util.List;
-
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -87,33 +83,29 @@ public class AdminController {
 	return mav;
     }
     
-    @RequestMapping(value = "/user/manage-users/save-user-edit", method = RequestMethod.POST)
-    public ModelAndView saveUserEdit(ModelAndView mav, @Valid UserInfo userInfo, BindingResult bindResult) {
+    // @RequestMapping(value = "/user/manage-users/save-user-edit", method = RequestMethod.POST)
+    // public ModelAndView saveUserEdit(ModelAndView mav, @Valid UserInfo userInfo, BindingResult bindResult) {
 
-	/*User userExists = userService.findUserByEmail(user.getEmail());
-	User updateUser = userService.getUserById(user.getId());
+	// User userExists = userInfoService.findUserByEmail(user.getEmail());
+	// User updateUser = userInfoService.getUserById(user.getId());
 
-	if (userExists != null && !user.getEmail().equals(updateUser.getEmail())) {
-	    bindResult.rejectValue("email", "error.user", "User already exists with Email id");
-	}
+	// if (userExists != null && !user.getEmail().equals(updateUser.getEmail())) {
+	//     bindResult.rejectValue("email", "error.user", "User already exists with Email id");
+	// }
 
-	if (bindResult.hasErrors()) {
-	    mav.addObject("errorField", bindResult.getFieldError().getField());
-	    mav.addObject("errorMessage", bindResult.getFieldError().getDefaultMessage());
-	    mav.setView(new RedirectView("/docs-app/admin/manage-users/edit/" + user.getId() + ""));
-	} else {
-	    updateUser.setName(user.getName());
-	    updateUser.setLastName(user.getLastName());
-	    updateUser.setEmail(user.getEmail());
-	    updateUser.setPassword(user.getPassword());
-	    updateUser.setRole(user.getRole());
-	    userService.saveUser(updateUser);
-	    mav.addObject("successMessage", "User Details updated successfully!!");
-	    mav.setView(new RedirectView("/docs-app/admin/manage-users"));
-	}
-*/
-	return mav;
-    }
-
-
+	// if (bindResult.hasErrors()) {
+	//     mav.addObject("errorField", bindResult.getFieldError().getField());
+	//     mav.addObject("errorMessage", bindResult.getFieldError().getDefaultMessage());
+	//     mav.setView(new RedirectView("/docs-app/admin/manage-users/edit/" + user.getId() + ""));
+	// } else {
+	//     updateUser.setName(user.getName());
+	//     updateUser.setLastName(user.getLastName());
+	//     updateUser.setEmail(user.getEmail());
+	//     updateUser.setPassword(user.getPassword());
+	//     updateUser.setRole(user.getRole());
+	//     userService.saveUser(updateUser);
+	//     mav.addObject("successMessage", "User Details updated successfully!!");
+	//     mav.setView(new RedirectView("/docs-app/admin/manage-users"));
+	// }
+	
 }

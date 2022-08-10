@@ -67,16 +67,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     protected void configure(HttpSecurity http) throws Exception{
 	http.authorizeRequests()
-		.antMatchers("/", "/login", "/registration").permitAll().anyRequest()
+		.antMatchers("/", "/login", "/registration","/forgot-password").permitAll().anyRequest()
 		.authenticated().and().csrf().disable().formLogin()
-		.loginPage("/").failureUrl("/login?error=true")
+		.loginPage("/login").failureUrl("/login?error=true")
 		.defaultSuccessUrl("/user/home")
 		.usernameParameter("email")
 		.passwordParameter("password")
 		.and().logout()
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 		.logoutSuccessUrl("/login").and().exceptionHandling()
-		.accessDeniedPage("/access-denied");
+		.accessDeniedPage("/access-denied")
+        .and()
+        .rememberMe()
+        .rememberMeParameter("remember")
+        .rememberMeCookieName("rememberlogin")
+        .tokenValiditySeconds(20000000)
+        .key("secret!");
     }
 
     /**

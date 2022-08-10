@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -44,11 +43,14 @@ public class UserInfo {
 
     @Column(name = "active")
     private boolean active;
-
+    @Column(name = "otp")
+    private long otp;
+  
+  
     public int getId() {
 	return id;
     }
-
+   
     public void setId(int id) {
 	this.id = id;
     }

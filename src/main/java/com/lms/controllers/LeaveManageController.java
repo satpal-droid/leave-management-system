@@ -54,26 +54,55 @@ public class LeaveManageController {
 	UserInfo userInfo = userInfoService.findUserByEmail(auth.getName());
 	request.getSession().setAttribute("userInfo", userInfo);
 	Integer activeLeaves = leaveManageService.countAllLeaves(userInfo.getEmail());
-	System.out.println(activeLeaves);
 	Integer totalLeaves  = leaveManageRepository.totalLeaves();
 	Integer rejectedLeaves = leaveManageService.countAllRejectedLeaves(userInfo.getEmail());
 
-	if((activeLeaves== null)&&(rejectedLeaves == null)){
+	if((activeLeaves == null)&&(rejectedLeaves == null)){
 
 		Integer activeLeaves1 = 0;
 		Integer balancedLeaves1 = 8;
 		Integer rejectedLeaves1 = 0;
 
 
-    mav.addObject("rejectedLeaves", rejectedLeaves1);
-    mav.addObject("balancedLeaves", balancedLeaves1);
-	mav.addObject("activeLeaves", activeLeaves1);
-	mav.addObject("totalLeaves", totalLeaves);
-	mav.addObject("userInfo", userInfo);
-	mav.setViewName("applyLeave");
+		mav.addObject("rejectedLeaves", rejectedLeaves1);
+		mav.addObject("balancedLeaves", balancedLeaves1);
+		mav.addObject("activeLeaves", activeLeaves1);
+		mav.addObject("totalLeaves", totalLeaves);
+		mav.addObject("userInfo", userInfo);
+		mav.setViewName("applyLeave");
 	
 	}
-	else{
+	else if((activeLeaves != null)&&(rejectedLeaves==null)){
+
+		Integer activeLeaves1 = leaveManageService.countAllLeaves(userInfo.getEmail());;
+		Integer balancedLeaves1 =(totalLeaves-activeLeaves) ;
+		Integer rejectedLeaves1 = 0;
+
+
+		mav.addObject("rejectedLeaves", rejectedLeaves1);
+		mav.addObject("balancedLeaves", balancedLeaves1);
+		mav.addObject("activeLeaves", activeLeaves1);
+		mav.addObject("totalLeaves", totalLeaves);
+		mav.addObject("userInfo", userInfo);
+		mav.setViewName("applyLeave");
+	} 
+	else if((activeLeaves == null)&&(rejectedLeaves!=null)){
+
+		Integer activeLeaves1 = 0;
+		Integer balancedLeaves1 = 8;
+		Integer rejectedLeaves1 = leaveManageService.countAllRejectedLeaves(userInfo.getEmail());;
+
+
+		mav.addObject("rejectedLeaves", rejectedLeaves1);
+		mav.addObject("balancedLeaves", balancedLeaves1);
+		mav.addObject("activeLeaves", activeLeaves1);
+		mav.addObject("totalLeaves", totalLeaves);
+		mav.addObject("userInfo", userInfo);
+		mav.setViewName("applyLeave");
+	} 
+	else if((rejectedLeaves!=null)||(activeLeaves != null))
+	{
+
 	    Integer balancedLeaves = (totalLeaves - activeLeaves);
 		mav.addObject("rejectedLeaves", rejectedLeaves);
 		mav.addObject("balancedLeaves", balancedLeaves);
@@ -98,7 +127,7 @@ public class LeaveManageController {
 	if(activeLeaves==null){
      activeLeaves=0;		
 	}
-	else if (bindingResult.hasErrors()) { 
+	 if (bindingResult.hasErrors()) { 
 		mav.setViewName("applyLeave");
 	}
 

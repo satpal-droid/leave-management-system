@@ -30,7 +30,6 @@
 	<div class="sin-w3-agile">
 		<h2>Leave Management System</h2>
 		<h2>Sign Up</h2>
-		<label class="alert alert-info" style="width: 100%;" th:if="${successMessage != null}" th:text="${successMessage}"></label>
 		<form th:action="@{/registration}" th:object="${userInfo}" method="post">
 			<div class="username">
 				<span class="username">First Name:</span>
@@ -52,7 +51,7 @@
 			</div>
 			<div class="password-agileits">
 				<span class="username">Password:</span>
-				<input type="password" th:field="*{password}" class="password" required>
+				<input type="password" th:field="*{password}" class="password" placeholder="Generate your Password" required>
 				<label class="alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></label>
 				<div class="clearfix"></div>
 			</div>
@@ -60,7 +59,7 @@
 				<span class="username">Role:</span>
 				<div style="width:  71%;padding:  10px;">
 					<label style="padding-left: 25px;padding-right: 10px;">
-					<input type="radio" th:field="*{role}" value="MANAGER" checked="checked">MANAGER</label>
+					<!-- <input type="radio" th:field="*{role}" value="MANAGER" checked="checked">MANAGER</label> -->
 					<label><input type="radio" th:field="*{role}" value="EMPLOYEE" >EMPLOYEE</label> 
 				</div>
 				<label class="alert-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}" ></label>

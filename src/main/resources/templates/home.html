@@ -59,15 +59,13 @@
 												<div class="clearfix"></div>	
 											</div>	
 										</a>
-										<ul class="dropdown-menu drp-mnu"> 
+										<ul class="dropdown-menu drp-mnu" > 
 											
 
 											<!-- Trigger the modal with a button -->
-										
-											
-											<li data-toggle="myModal" data-toggle="modal" data-target="#myModal" ><i class="fa fa-user"></i>Profile</a></li>
-											<!-- <li data-toggle="modal" data-target="#myModal"><i class="fa fa-user"></i> Profile</li></li> -->
-											<li> <a th:href="@{/logout}"><i class="fa fa-sign-out"></i> Logout</a> </li>
+											<!-- <li data-toggle="modal" th:id="data-target='#myModal+${userInfo.id}'" data-row="${userInfo}"><i class="fa fa-user"></i>Profile</li></li> -->
+											<li data-toggle= "modal" th:attr="data-target='#myModal'" ><i class="fa fa-user"></i>Profile</a></li></li> 
+											<li> <a th:href="@{/logout}"><i class="fa fa-sign-out"></i> Logout</a></li>							
 										</ul>
 									</li>
 								</ul>
@@ -76,7 +74,8 @@
 				     <div class="clearfix"> </div>	
 						</div>
 										<!-- Modal -->
-										<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									
+										<div class="modal fade" th:id="myModal" th:data="userInfo.id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 											<div class="modal-dialog" role="document">
 											<div class="modal-content">
 												<div class="modal-header">
@@ -98,7 +97,7 @@
 															</tr>
 														  </thead>
 														  <tbody>
-															<tr th:each="userInfo: ${userInfo}">
+															<tr th:each="userInfo: ${userInfo2}">
 															<td th:text="${userInfo.email}"></td>
 															<td th:text="${userInfo.firstName}"></td>
 															<td th:text= "${userInfo.lastName}"></td>
@@ -114,7 +113,17 @@
 											</div>
 											</div>
 										</div>
+
 										<!-- modal -->
+
+										
+										
+										<script>
+											$('#modal-delete').on('show.bs.modal', function (e) {
+												$(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+												$('#modal-deleteHiddenId').val($(this).find('.btn-ok').attr('href'));
+											});
+										</script>
 											
 
 
@@ -141,7 +150,7 @@
 							<span class="label label-danger"><input type="checkbox" id="rejected" value="rejected" class="filterStatus"> Rejected</span>
 					</div>
 					
-					<!--<div class="w3l-calendar-left">
+					<div class="w3l-calendar-left">
 						<div class="monthly" id="mycalendar"></div>
 					</div> -->
 					
