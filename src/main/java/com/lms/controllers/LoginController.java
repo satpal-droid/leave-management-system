@@ -143,14 +143,17 @@ public class LoginController {
     public ModelAndView forgotPassword(ModelAndView mv , UserInfo userInfo , @RequestParam("email") String email , BindingResult bindResult ){
 
         UserInfo userInfo1 = userInfoService.findUserByEmail(email); 
-        // String existsEmail = (userInfo1.getEmail());
-        if(userInfo1==null){
+        String existsEmail = (userInfo1.getEmail());
+        System.err.println(existsEmail);
+        if(existsEmail==null){
             mv.addObject("message", "Email Id does not exists.Please Enter the Correct Email!");
             mv.setViewName("forgot-password");
         }
              Random random = new Random();
              long otp = random.nextInt(99999);
-             emailSenderService.sendEmail("sam.ahlawat4044@gmail.com","Your OTP", "your otp is "+otp+"");
+             String sOtp = String.valueOf(otp);
+             String text = "This is your"+" "+sOtp;
+             emailSenderService.sendEmail(existsEmail,"Your OTP", text);
              mv.setViewName("verify-OTP");
              return mv;
     }
