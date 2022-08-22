@@ -44,7 +44,7 @@ public class UserInfo {
     @Column(name = "active")
     private boolean active;
     @Column(name = "otp")
-    private long otp;
+    private int otp;
   
   
     public int getId() {
@@ -101,5 +101,13 @@ public class UserInfo {
 
     public void setActive(boolean active) {
 	this.active = active;
+    }
+
+    public long getOtp() {
+        return otp;
+    }
+
+    public void setOtp(int otp) {
+        this.otp = otp;
     }
 }

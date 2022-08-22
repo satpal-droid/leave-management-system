@@ -76,12 +76,13 @@
     </ol>
 	<div class="agile-grids">	
 				<!-- tables -->
-			<div class="alert alert-info" th:if="${(param.successMessage != null)}">
-					<span th:text="${param.successMessage[0]}"></span>
+			<div><label class="alert alert-info" style="width: 100%; font-size: 20; color: #1e201f; text-align:center;" th:if="${(param.successMessage != null)}" ></label>
+				<p th:text="${successMessage}"></p>
+					
             </div>		
 			<div class="agile-tables">
 
-				  <h3>Manage Users</h3>
+				  <h3>Manage Users</h3> 
 				  <table id="table-two-axis" class="two-axis">
 					<thead>
 					  <tr>

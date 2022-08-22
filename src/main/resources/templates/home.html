@@ -42,7 +42,9 @@
 				<div class="header-main">
 					<div class="" style="float:left;">
 								<h2><a th:href="@{/user/home}">Leave Management System</a></h2>
+								
 					</div>
+					
 
 						<div class="profile_details w3l" style="float:right;">		
 								<ul>
@@ -131,16 +133,18 @@
 		<ol class="breadcrumb">
             <li class="breadcrumb-item"><a th:href="@{/user/home}">Home</a> <i class="fa fa-angle-right"></i></li>
         </ol>
-        
+				
+		
+<!--        
         <div class="row">
               <div class="col-lg-12 ">
-                  <div class="alert alert-info" th:if="${(param.successMessage != null)}">
-						<span th:text="${param.successMessage[0]}"></span>
+                  <div class="alert alert-info" th:if="${(successMessage != null)}" th:text="${successMessage}">
+						
                   </div>
                  
               </div>
         </div>
-        
+         -->
         <!-- <div class="grids">
 			<div class="agile-calendar-grid">
 				<div class="page">

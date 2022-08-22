@@ -67,6 +67,7 @@ public class LoginController {
 
 	mav.addObject("userInfo", userInfo);
 	if (!(auth instanceof AnonymousAuthenticationToken)) {
+        mav.addObject("successMessage", "You logged in successfully!!");
 	    mav.setViewName("home");
 	    return mav;
 	}
@@ -144,16 +145,19 @@ public class LoginController {
 
         UserInfo userInfo1 = userInfoService.findUserByEmail(email); 
         String existsEmail = (userInfo1.getEmail());
-        System.err.println(existsEmail);
-        if(existsEmail==null){
+        if(existsEmail!=email){
             mv.addObject("message", "Email Id does not exists.Please Enter the Correct Email!");
-            mv.setViewName("forgot-password");
+            mv.setViewName("forgotPassword");
         }
              Random random = new Random();
-             long otp = random.nextInt(99999);
+             int otp = random.nextInt(99999);
+             System.out.println(otp);
              String sOtp = String.valueOf(otp);
              String text = "This is your"+" "+sOtp;
              emailSenderService.sendEmail(existsEmail,"Your OTP", text);
+            //  UserInfo userinfo = null;
+            //  int otp1 = userInfo.setOtp(otp);
+            //  userInfoService.saveOtp(otp);
              mv.setViewName("verify-OTP");
              return mv;
     }

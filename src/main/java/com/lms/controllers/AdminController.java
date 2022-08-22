@@ -41,7 +41,7 @@ public class AdminController {
 	    return mav;
 	}
 	userInfo.setPassword(new_password);
-	userInfoService.saveUser(userInfo);
+	userInfoService.saveUserWithPasswordChange(userInfo);
 	mav.addObject("successMessage", "Password changed Successfully!!!");
 	mav.setView(new RedirectView("../user/home"));
 	return mav;
@@ -69,15 +69,15 @@ public class AdminController {
 	} else if (action.equals("delete")) {
 	    userInfoService.deleteUser(id);
 	    mav.addObject("successMessage", "User removed successfully!!");
-	    mav.setView(new RedirectView("/leave-management-system/user/manage-users"));
+	    mav.setView(new RedirectView("/user/manage-users"));
 	} else if (action.equals("block")) {
 	    userInfoService.blockUser(id);
 	    mav.addObject("successMessage", "User blocked successfully!!");
-	    mav.setView(new RedirectView("/leave-management-system/user/manage-users"));
+	    mav.setView(new RedirectView("/user/manage-users"));
 	} else if (action.equals("unblock")) {
 	    userInfoService.unBlockUser(id);
 	    mav.addObject("successMessage", "User is active now!!");
-	    mav.setView(new RedirectView("/leave-management-system/user/manage-users"));
+	    mav.setView(new RedirectView("/user/manage-users"));
 	}
 
 	return mav;
