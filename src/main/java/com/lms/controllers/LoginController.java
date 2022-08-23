@@ -2,7 +2,10 @@ package com.lms.controllers;
 
 
 import java.util.Random;
+
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.lms.EmailService.EmailSenderService;
 import com.lms.models.UserInfo;
-
+import com.lms.repository.UserInfoRepository;
 import com.lms.service.LeaveManageService;
 import com.lms.service.UserInfoService;
 
@@ -38,6 +42,7 @@ public class LoginController {
 
     @Autowired
     private UserInfoService userInfoService;
+   
 
     @Autowired
     LeaveManageService leaveManageService;
@@ -141,36 +146,48 @@ public class LoginController {
     }
      
     @RequestMapping(value ="/forgot-password", method = RequestMethod.POST)
-    public ModelAndView forgotPassword(ModelAndView mv , UserInfo userInfo , @RequestParam("email") String email , BindingResult bindResult ){
+    public ModelAndView forgotPassword(ModelAndView mv , UserInfo userInfo , @RequestParam("email") String email , BindingResult bindResult,HttpSession session ){
 
         UserInfo userInfo1 = userInfoService.findUserByEmail(email); 
         String existsEmail = (userInfo1.getEmail());
-        if(existsEmail!=email){
+        if(existsEmail==null){
             mv.addObject("message", "Email Id does not exists.Please Enter the Correct Email!");
             mv.setViewName("forgotPassword");
         }
+        else{
              Random random = new Random();
              int otp = random.nextInt(99999);
-             System.out.println(otp);
-             String sOtp = String.valueOf(otp);
-             String text = "This is your"+" "+sOtp;
+            //  String sOtp = String.valueOf(otp);
+             String text = "This is your"+" "+otp;
              emailSenderService.sendEmail(existsEmail,"Your OTP", text);
-            //  UserInfo userinfo = null;
-            //  int otp1 = userInfo.setOtp(otp);
-            //  userInfoService.saveOtp(otp);
-             mv.setViewName("verify-OTP");
+             session.setAttribute("sessionOtp", otp); 
+             mv.setView(new RedirectView("/verify-OTP"));
+        }
              return mv;
     }
-    @RequestMapping(value ="/verify-OTP", method = RequestMethod.GET)
-    public ModelAndView verifyOTPForm(ModelAndView mv){
+    @RequestMapping(value ="/verify-OTP", method = RequestMethod.POST)
+    public ModelAndView verifyOTPForm(ModelAndView mv,HttpSession session,@RequestParam("otp") int otp){
+        
+         session.getAttribute("sessionOtp");
+         Integer intOtp = (int)(session.getAttribute("sessionOtp"));
+         System.out.println(intOtp);
+         if(otp==intOtp){
 
-         mv.setViewName("verify-OTP");
+            mv.setView(new RedirectView("/user/change-password"));
+
+         }
+         else{
+
+            mv.addObject("message", "Wrong OTP");
+            mv.setViewName("verifyOTP");
+
+         }
          return mv;
     }
-    @RequestMapping(value ="/verify-OTP", method = RequestMethod.POST)
+    @RequestMapping(value ="/verify-OTP", method = RequestMethod.GET)
     public ModelAndView verifyOTP(ModelAndView mv){
 
-         mv.setViewName("changePassword");
+         mv.setViewName("verifyOTP");
          return mv;
     }
 

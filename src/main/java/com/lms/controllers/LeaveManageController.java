@@ -111,6 +111,7 @@ public class LeaveManageController {
 		mav.addObject("userInfo", userInfo);
 		mav.setViewName("applyLeave");
 	}
+	
 
 	return mav;
     }

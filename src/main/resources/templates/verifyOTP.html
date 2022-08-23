@@ -29,11 +29,7 @@
 	<div class="container">
 	<div class="sin-w3-agile">
 		<h2>Leave Management System</h2>
-		<div>
-		<label class="alert alert-info" style="width: 100%;" th:if="${successMessage != null}" th:text="${successMessage}"></label></div>
-		<div align ="center" th:if="${param.error}">
-			<p style="font-size: 20; color: #FF1C19;">Email or Password invalid, please verify</p>
-		</div>
+		
 		<form th:action="@{/verify-OTP}" method="post">
 			<div class="username">
 				<span class="username">OTP:</span>

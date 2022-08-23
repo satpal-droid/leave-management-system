@@ -26,21 +26,24 @@ public class UserPDFExporter {
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
         font.setColor(Color.WHITE);
          
-        cell.setPhrase(new Phrase("User ID", font));
+        cell.setPhrase(new Phrase(" FROM DATE", font));
          
         table.addCell(cell);
          
-        cell.setPhrase(new Phrase("E-mail", font));
+        cell.setPhrase(new Phrase("	TO DATE", font));
         table.addCell(cell);
          
-        cell.setPhrase(new Phrase("Full Name", font));
+        cell.setPhrase(new Phrase("NO OF DAYS", font));
         table.addCell(cell);
          
-        cell.setPhrase(new Phrase("Roles", font));
+        cell.setPhrase(new Phrase("	LEAVE TYPE", font));
         table.addCell(cell);
          
-        cell.setPhrase(new Phrase("Enabled", font));
-        table.addCell(cell);       
+        cell.setPhrase(new Phrase("REASON", font));
+        table.addCell(cell);  
+
+        cell.setPhrase(new Phrase("STATUS", font));
+        table.addCell(cell);     
     }
      
     private void writeTableData(PdfPTable table) {
@@ -50,6 +53,7 @@ public class UserPDFExporter {
             table.addCell(leaveDetails.getLeaveType());
             table.addCell(leaveDetails.getReason());
             table.addCell(String.valueOf(leaveDetails.getDuration()));
+            table.addCell(String.valueOf(leaveDetails.getReason()));
         }
     }
      
@@ -67,9 +71,9 @@ public class UserPDFExporter {
          
         document.add(p);
          
-        PdfPTable table = new PdfPTable(5);
+        PdfPTable table = new PdfPTable(6);
         table.setWidthPercentage(100f);
-        table.setWidths(new float[] {1.5f, 3.5f, 3.0f, 3.0f, 1.5f});
+        table.setWidths(new float[] {3.5f, 3.5f, 3.0f, 3.0f, 3.5f,3.5f});
         table.setSpacingBefore(10);
          
         writeTableHeader(table);

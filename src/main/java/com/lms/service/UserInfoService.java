@@ -48,12 +48,7 @@ public class UserInfoService {
         userInfoRepository.save(userInfo);
      
         }
-        // public void saveOtp(int otp) {
-           
-           
-        //     userInfoRepository.saveOtp(otp);
-         
-        //     }
+      
 
     public List<UserInfo> getUsers() {
 

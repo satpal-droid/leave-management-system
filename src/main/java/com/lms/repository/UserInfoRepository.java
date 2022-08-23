@@ -22,8 +22,6 @@ public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
 
    
     public UserInfo findById(int id);
-    // @Query
-    // public void saveOtp(int otp);
 
     @Transactional
     @Modifying

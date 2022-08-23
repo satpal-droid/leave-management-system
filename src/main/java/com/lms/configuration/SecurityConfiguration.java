@@ -66,24 +66,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      * to role-specific urls.
      */
     protected void configure(HttpSecurity http) throws Exception{
-	http.authorizeRequests()
-		.antMatchers("/", "/login", "/registration","/forgot-password").permitAll().anyRequest()
-		.authenticated().and().csrf().disable().formLogin()
-		.loginPage("/login").failureUrl("/login?error=true")
-		.defaultSuccessUrl("/user/home")
-		.usernameParameter("email")
-		.passwordParameter("password")
-		.and().logout()
-		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-		.logoutSuccessUrl("/login").and().exceptionHandling()
-		.accessDeniedPage("/access-denied")
-        .and()
-        .rememberMe()
-        .rememberMeParameter("remember")
-        .rememberMeCookieName("rememberlogin")
-        .tokenValiditySeconds(20000000)
-        .key("secret!");
-    }
+        http.authorizeRequests()
+            .antMatchers("/", "/login", "/registration","/forgot-password","/verify-OTP","/user/change-password").permitAll().anyRequest()
+            .authenticated().and().csrf().disable().formLogin()
+            .loginPage("/login").failureUrl("/login?error=true")
+            .defaultSuccessUrl("/user/home")
+            .usernameParameter("email")
+            .passwordParameter("password")
+            .and().logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .logoutSuccessUrl("/login").and().exceptionHandling()
+            .accessDeniedPage("/access-denied")
+            .and()
+            .rememberMe()
+            .rememberMeParameter("remember")
+            .rememberMeCookieName("rememberlogin")
+            .tokenValiditySeconds(20000000)
+            .key("secret!");
+        }
 
     /**
      * To ignore security on particular things like resources,jar files etc,this
