@@ -160,7 +160,8 @@ public class LoginController {
             //  String sOtp = String.valueOf(otp);
              String text = "This is your"+" "+otp;
              emailSenderService.sendEmail(existsEmail,"Your OTP", text);
-             session.setAttribute("sessionOtp", otp); 
+             session.setAttribute("sessionOtp", otp);
+             session.setAttribute("mail", existsEmail);  
              mv.setView(new RedirectView("/verify-OTP"));
         }
              return mv;
@@ -170,6 +171,8 @@ public class LoginController {
         
          session.getAttribute("sessionOtp");
          Integer intOtp = (int)(session.getAttribute("sessionOtp"));
+         String email = (String)session.getAttribute("mail");      
+	     System.out.println(email);
          System.out.println(intOtp);
          if(otp==intOtp){
 

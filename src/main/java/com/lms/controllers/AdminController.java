@@ -1,6 +1,9 @@
 package com.lms.controllers;
 
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.lms.models.UserInfo;
+import com.lms.repository.UserInfoRepository;
 import com.lms.service.UserInfoService;
 
 @Controller
@@ -20,6 +24,9 @@ public class AdminController {
 
     @Autowired
     UserInfoService userInfoService;
+	@Autowired
+    UserInfoRepository userInfoRepository;
+
 
     @RequestMapping(value = "/user/change-password", method = RequestMethod.GET)
     public ModelAndView changePasswordForm(ModelAndView mav) {
@@ -30,21 +37,32 @@ public class AdminController {
 
     @RequestMapping(value = "/user/change-password", method = RequestMethod.POST)
     public ModelAndView changePasswordSubmit(ModelAndView mav,@RequestParam("currentPassword") String current_password,
-	    @RequestParam("newPassword") String new_password) {
+	    @RequestParam("newPassword") String new_password,UserInfo userInfo,HttpSession session) {
 	BCryptPasswordEncoder bCryptPassEncoder = new BCryptPasswordEncoder();
-	String username = SecurityContextHolder.getContext().getAuthentication().getName();
-	UserInfo userInfo = userInfoService.findUserByEmail(username);
-	String encodedPassword = userInfo.getPassword();
-	if (!bCryptPassEncoder.matches(current_password, encodedPassword)) {
-	    mav.addObject("successMessage", "Current Password entered is wrong!!!");
-	    mav.setViewName("changePassword");
-	    return mav;
+	String email = (String)session.getAttribute("mail");
+	System.out.println(email);
+	// String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	// UserInfo userInfo = userInfoService.findUserByEmail(username);
+	UserInfo userInfoCheckUser = userInfoRepository.findByEmail(email);
+	if(userInfoCheckUser==null){
+
+
+		mav.addObject("errorMessage", "User does not exist with this email Id");
+		mav.setView(new RedirectView("/forgot-password"));
 	}
-	userInfo.setPassword(new_password);
-	userInfoService.saveUserWithPasswordChange(userInfo);
-	mav.addObject("successMessage", "Password changed Successfully!!!");
-	mav.setView(new RedirectView("../user/home"));
-	return mav;
+	else{
+	    String encodedPassword = userInfoCheckUser.getPassword();
+		if (!bCryptPassEncoder.matches(current_password, encodedPassword)) {
+			mav.addObject("successMessage", "Current Password entered is wrong!!!");
+			mav.setViewName("changePassword");
+			return mav;
+		}
+		userInfoCheckUser.setPassword(new_password);
+		userInfoService.saveUserWithPasswordChange(userInfoCheckUser);
+		mav.addObject("successMessage", "Password changed Successfully!!!");
+		mav.setView(new RedirectView("../user/home"));
+	}
+	    return mav;
     }
     
     @RequestMapping(value = "/user/manage-users", method = RequestMethod.GET)
