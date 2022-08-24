@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.support.RequestPartServletServerHttpRequest;
 // import org.springframework.web.bind.annotation.RequestParam;
 // import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,7 +50,10 @@ public class LeaveManageController {
 
 	
     @RequestMapping(value = "/user/apply-leave", method = RequestMethod.GET)
-    public ModelAndView applyLeave(ModelAndView mav,HttpServletRequest request) {
+    public ModelAndView applyLeave(ModelAndView mav,HttpServletRequest request,LeaveDetails leaveDetails) {
+
+	
+
 	mav.addObject("leaveDetails", new LeaveDetails());
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	UserInfo userInfo = userInfoService.findUserByEmail(auth.getName());
@@ -112,12 +117,14 @@ public class LeaveManageController {
 		mav.setViewName("applyLeave");
 	}
 	
+	
 
 	return mav;
     }
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/user/apply-leave", method = RequestMethod.POST)
     public ModelAndView submitApplyLeave(ModelAndView mav, @Valid LeaveDetails leaveDetails,
-	    BindingResult bindingResult,HttpServletRequest request) {
+	    BindingResult bindingResult,HttpServletRequest request,@RequestParam()) {
 
 	UserInfo userInfo = userInfoService.getUserInfo();
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -125,6 +132,8 @@ public class LeaveManageController {
 	request.getSession().setAttribute("userInfo", userInfo);
 	Integer totalLeaves = leaveManageRepository.totalLeaves();
     Integer activeLeaves = leaveManageService.countAllLeaves(userInfo1.getEmail());
+	Integer duration = leaveDetails.getToDate().getDate() - leaveDetails.getFromDate().getDate(); 
+	System.out.println(duration);
 	if(activeLeaves==null){
      activeLeaves=0;		
 	}
