@@ -10,13 +10,14 @@ import javax.validation.Valid;
 // import org.json.JSONArray;
 // import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.support.RequestPartServletServerHttpRequest;
+// import org.springframework.web.multipart.support.RequestPartServletServerHttpRequest;
 // import org.springframework.web.bind.annotation.RequestParam;
 // import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -32,6 +33,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
 import com.lowagie.text.DocumentException;
@@ -124,26 +126,36 @@ public class LeaveManageController {
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "/user/apply-leave", method = RequestMethod.POST)
     public ModelAndView submitApplyLeave(ModelAndView mav, @Valid LeaveDetails leaveDetails,
-	    BindingResult bindingResult,HttpServletRequest request,@RequestParam()) {
-
+	    BindingResult bindingResult,HttpServletRequest request,@RequestParam("fromDate") Date fromdate, @RequestParam("toDate") Date todate) {
+			
 	UserInfo userInfo = userInfoService.getUserInfo();
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	UserInfo userInfo1 = userInfoService.findUserByEmail(auth.getName());
 	request.getSession().setAttribute("userInfo", userInfo);
 	Integer totalLeaves = leaveManageRepository.totalLeaves();
     Integer activeLeaves = leaveManageService.countAllLeaves(userInfo1.getEmail());
-	Integer duration = leaveDetails.getToDate().getDate() - leaveDetails.getFromDate().getDate(); 
+	// Integer duration = leaveDetails.getToDate().getDate() - leaveDetails.getFromDate().getDate(); 
+	Integer duration =	todate.getDate() - fromdate.getDate();
+	Integer balancedLeaves =(totalLeaves-activeLeaves);
+	System.out.println(balancedLeaves);
 	System.out.println(duration);
-	if(activeLeaves==null){
-     activeLeaves=0;		
+	// if(activeLeaves==null){
+    //  activeLeaves = 0;		
+	//  }
+	
+    if(duration>balancedLeaves){
+
+      mav.addObject("alertMessage", "You cant take leave more than your balanced leaves");
+	  mav.setView(new RedirectView("/user/apply-leave"));
+
 	}
-	 if (bindingResult.hasErrors()) { 
+	 else if (bindingResult.hasErrors()) { 
 		mav.setViewName("applyLeave");
 	}
 
-	else if(activeLeaves>totalLeaves){
+	else if(activeLeaves==totalLeaves){
 
-        mav.addObject("errorMessage", "you cannot take leaves more than 8.");
+        mav.addObject("errorMessage", "Y ou cannot take leaves more than 8.");
 		mav.setViewName("applyLeave");
 	}
 

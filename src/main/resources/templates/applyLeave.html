@@ -2,6 +2,9 @@
 <html>
 <head>
 <title>Apply Leave</title>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -25,6 +28,8 @@
 <script th:src="@{/js/bootbox.min.js}"></script>
 <script th:src="@{/js/jquery-ui.js}"></script>
 <link rel="stylesheet" th:href="@{/css/jquery-ui.css}" type="text/css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
+<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css"> -->
 </head> 
 <body>
 <div class="page-container">
@@ -99,6 +104,9 @@
 						</div>
 						
         <!-- leave cards -->
+		<div class="alert alert-info" th:if="${(param.alertMessage != null)}">
+			<span th:text="${param.alertMessage[0]}"></span>
+	</div>
 
         <div class="grid-form1">
             <h3>Request For Leave</h3>
@@ -108,9 +116,12 @@
                 	
 					<div class="form-group">
 						<label class="col-sm-4 control-label">From Date  :</label>
-						<div class="col-sm-6">
+						 <div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+                        <input type="text" id="dp1" class="datepicker" placeholder="Pick Date" th:field="*{fromDate}" readonly><span class="fa fa-calendar"></span>
+                        </div>
+						<!-- <div class="col-sm-6">
 							<input type="text" th:field="*{fromDate}" placeholder="From Date" class="form-control1 leave-date" />
-						</div>
+						</div> -->
 						<div class="alert alert-info" th:if="${(param.errorMessage != null)}">
 							<span th:text="${param.errorMessage[0]}"></span>
 					</div>	
@@ -120,12 +131,16 @@
 					</div>
 					<div class="form-group">
 						<label class="col-sm-4 control-label">To Date :</label>
-						<div class="col-sm-6">
+						<div class="mx-0 mb-0 row justify-content-sm-center justify-content-start px-1">
+							<input type="text" id="dp1" class="datepicker" placeholder="Pick Date" th:field="*{toDate}" readonly><span class="fa fa-calendar" ></span>
+							</div>
+						<!-- <div class="col-sm-6">
 							<input type="text" th:field="*{toDate}" placeholder="To Date" class="form-control1 leave-date" />
-						</div>
+						</div> -->
 						
 						<label class="alert-danger col-sm-6 col-sm-offset-4" th:if="${#fields.hasErrors('toDate')}" th:errors="*{toDate}"></label> 
 					</div>
+					
 					<div class="form-group">
 						<label class="col-sm-4 control-label">Leave Type :</label>
 						<div class="col-sm-6">
@@ -157,12 +172,28 @@
             </div>
          </div>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$(function(){
 		$('.leave-date').datepicker();
 	});
-</script>
+</script> -->
 
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$('.datepicker').datepicker({
+		format: 'yyyy/mm/dd',
+		autoclose: true,
+	
+	});
+	
+	$('.cell').click(function(){
+		$('.cell').removeClass('select');
+		$(this).addClass('select');
+	});
+	
+	});
+</script>
 <!-- script-for sticky-nav -->
 		<script>
 		$(document).ready(function() {
@@ -210,7 +241,7 @@
 										
 										<li><a th:href="@{/user/my-leaves}"><i class="fa fa-calendar-check-o"></i> <span>My Leaves</span><div class="clearfix"></div></a></li>
 										
-										<li><a th:href="@{/user/change-password}"><i class="fa fa-key"></i> <span>Change Password</span><div class="clearfix"></div></a></li>
+										<!-- <li><a th:href="@{/user/change-password}"><i class="fa fa-key"></i> <span>Change Password</span><div class="clearfix"></div></a></li> -->
 										
 								  	</ul>
 							</div>

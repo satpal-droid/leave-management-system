@@ -3,7 +3,7 @@ package com.lms.controllers;
 
 import java.util.Random;
 
-import javax.mail.Session;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -23,7 +23,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.lms.EmailService.EmailSenderService;
 import com.lms.models.UserInfo;
-import com.lms.repository.UserInfoRepository;
+
 import com.lms.service.LeaveManageService;
 import com.lms.service.UserInfoService;
 

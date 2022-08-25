@@ -8,9 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "leave_details")
@@ -27,10 +29,14 @@ public class LeaveDetails {
     @Column(name = "employee_name")
     private String employeeName;
 
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy/mm/dd")
     @NotNull(message = "Please provide start date!")
     @Column(name = "from_date")
     private Date fromDate;
 
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy/mm/dd")
     @NotNull(message = "Please provide end date!")
     @Column(name = "to_date")
     private Date toDate;
