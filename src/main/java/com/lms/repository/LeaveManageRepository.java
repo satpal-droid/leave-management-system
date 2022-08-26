@@ -16,10 +16,10 @@ public interface LeaveManageRepository extends JpaRepository<LeaveDetails, Seria
 
     @Query(value = "select total_leaves from total_leaves", nativeQuery = true)
     Integer totalLeaves();
-    
+  
     @Query(value = "select sum(duration) from leave_details where username=? AND accept_reject_flag=true", nativeQuery = true)
     Integer countActiveLeaves(String username); 
-    
+   
     @Query(value = "select sum(duration) from leave_details where username=? AND accept_reject_flag=false", nativeQuery = true)
     Integer  countRejectedLeaves(String username);  
     

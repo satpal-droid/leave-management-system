@@ -33,7 +33,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
 import com.lowagie.text.DocumentException;
@@ -132,44 +131,70 @@ public class LeaveManageController {
 	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	UserInfo userInfo1 = userInfoService.findUserByEmail(auth.getName());
 	request.getSession().setAttribute("userInfo", userInfo);
-	Integer totalLeaves = leaveManageRepository.totalLeaves();
-    Integer activeLeaves = leaveManageService.countAllLeaves(userInfo1.getEmail());
-	// Integer duration = leaveDetails.getToDate().getDate() - leaveDetails.getFromDate().getDate(); 
+	Integer totalLeaves = leaveManageRepository.totalLeaves();	
+    Integer activeLeaves = leaveManageService.countAllLeaves(userInfo1.getEmail()).intValue();
+	System.out.println(activeLeaves);
 	Integer duration =	todate.getDate() - fromdate.getDate();
-	Integer balancedLeaves =(totalLeaves-activeLeaves);
-	System.out.println(balancedLeaves);
 	System.out.println(duration);
-	// if(activeLeaves==null){
-    //  activeLeaves = 0;		
-	//  }
+
+	if(activeLeaves == null){
+
+			
+			Integer activeLeaves1 = 0;
+			Integer balancedLeaves = 8;		
+
+	}
+	else if(activeLeaves1)
+	if (bindingResult.hasErrors()) { 
+		mav.setViewName("applyLeave");
+	}
+		
+			
+	 else if(activeLeaves != null){
 	
-    if(duration>balancedLeaves){
 
-      mav.addObject("alertMessage", "You cant take leave more than your balanced leaves");
-	  mav.setView(new RedirectView("/user/apply-leave"));
+
+		leaveDetails.setUsername(userInfo.getEmail());
+		leaveDetails.setEmployeeName(userInfo.getFirstName() + " " + userInfo.getLastName());
+		leaveManageService.applyLeave(leaveDetails);
+		mav.addObject("successMessage", "Your Leave Request is registered!");
+		mav.setView(new RedirectView("/user/my-leaves"));
+
+      
 
 	}
-	 else if (bindingResult.hasErrors()) { 
-		mav.setViewName("applyLeave");
-	}
 
-	else if(activeLeaves==totalLeaves){
+	// Integer balancedLeaves = (totalLeaves-activeLeaves);
+	// Integer rejectedLeaves = leaveManageService.countAllRejectedLeaves(userInfo.getEmail());
+	
+	// System.out.println(totalLeaves);
+	// System.out.println(activeLeaves);
+	// System.out.println(balancedLeaves);
+	// Integer duration = leaveDetails.getToDate().getDate() - leaveDetails.getFromDate().getDate(); 
+	
 
-        mav.addObject("errorMessage", "Y ou cannot take leaves more than 8.");
-		mav.setViewName("applyLeave");
-	}
 
-     else {
-	    leaveDetails.setUsername(userInfo.getEmail());
-	    leaveDetails.setEmployeeName(userInfo.getFirstName() + " " + userInfo.getLastName());
-	    leaveManageService.applyLeave(leaveDetails);
-	    mav.addObject("successMessage", "Your Leave Request is registered!");
-	    mav.setView(new RedirectView("/user/my-leaves"));
-	 }
+		
+    // else if(duration>balancedLeaves){
+
+    //   mav.addObject("alertMessage", "You cant take leave more than your balanced leaves");
+	//   mav.setView(new RedirectView("/user/apply-leave"));
+
+	// }
+	
+	// else if(activeLeaves==totalLeaves){
+
+    //     mav.addObject("errorMessage", "You cannot take leaves more than 8.");
+	// 	mav.setViewName("applyLeave");
+	// }
+	
+     
+
+	 
+	
 		return mav;
-	
-	
-    }
+	}
+
 
     // @RequestMapping(value = "/user/get-all-leaves", method = RequestMethod.GET)
     // public @ResponseBody String getAllLeaves(@RequestParam(value = "pending", defaultValue = "false") boolean pending,
