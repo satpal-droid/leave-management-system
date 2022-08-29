@@ -50,10 +50,10 @@ public class UserPDFExporter {
         for (LeaveDetails leaveDetails : leaveDetails) {
             table.addCell(String.valueOf(leaveDetails.getFromDate()));
             table.addCell(String.valueOf(leaveDetails.getToDate()));
-            table.addCell(leaveDetails.getLeaveType());
-            table.addCell(leaveDetails.getReason());
             table.addCell(String.valueOf(leaveDetails.getDuration()));
-            table.addCell(String.valueOf(leaveDetails.getReason()));
+            table.addCell(leaveDetails.getLeaveType());
+            table.addCell(leaveDetails.getReason());   
+            table.addCell(String.valueOf(leaveDetails.getStatus()));
         }
     }
      

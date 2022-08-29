@@ -24,15 +24,17 @@ public class LeaveManageService {
 	Integer duration = leaveDetails.getToDate().getDate() - leaveDetails.getFromDate().getDate();
 	leaveDetails.setDuration(duration + 1);
 	leaveDetails.setActive(true);
+    leaveDetails.setStatus("pending");
 	leaveManageRepository.save(leaveDetails);
     }
 
-    public  Integer countAllLeaves(String username){
+    public Integer countAllLeaves(String username){
 
         return leaveManageRepository.countActiveLeaves(username);
 
     }
-    public  Integer countAllRejectedLeaves(String username){
+    
+    public Integer countAllRejectedLeaves(String username){
 
         return leaveManageRepository.countRejectedLeaves(username);
 

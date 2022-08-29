@@ -244,6 +244,19 @@ $(document).ready(function() {
 										<li><a th:href="@{/user/apply-leave}"><i class="fa fa-calendar-plus-o"></i> <span>Apply Leave</span><div class="clearfix"></div></a></li>
 										
 										<li><a th:href="@{/user/my-leaves}"><i class="fa fa-calendar-check-o"></i> <span>My Leaves</span><div class="clearfix"></div></a></li>
+										<li>
+											<div class="dropdown">	
+												<a class="btn-primary" and style="background-color:transparent; border:none; outline: none;" class=" dropdown-toggle " type="link" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+													<i class="fa fa-file"></i><span>Reports</span><div class="clearfix"></div></a>	
+												<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+													<a class="dropdown-item" th:href="@{/user/allLeaves}">All</a>
+												<a class="dropdown-item" th:href="@{/user/acceptedLeaves}">Accepted</a>
+												<a class="dropdown-item" th:href="@{/user/rejectedLeaves}">Rejected</a>
+												</div>
+											</div>
+										</li>
+										
+
 										
 										<!-- <li><a th:href="@{/user/change-password}"><i class="fa fa-key"></i> <span>Change Password</span><div class="clearfix"></div></a></li> -->
 										 
