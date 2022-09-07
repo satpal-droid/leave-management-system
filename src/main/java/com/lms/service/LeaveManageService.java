@@ -1,8 +1,10 @@
 package com.lms.service;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import com.lms.models.LeaveDetails;
@@ -17,6 +19,8 @@ public class LeaveManageService {
 
     @Autowired
     private LeaveManageNativeSqlRepo leaveManageNativeRepo;
+
+
 
     @SuppressWarnings("deprecation")
     public void applyLeave(LeaveDetails leaveDetails) {
@@ -39,11 +43,11 @@ public class LeaveManageService {
         return leaveManageRepository.countRejectedLeaves(username);
 
     }
+    public List<LeaveDetails> getAllLeaves() {  
 
-
-    public List<LeaveDetails> getAllLeaves() {
-
-	return leaveManageRepository.findAll();
+    
+   return  leaveManageRepository.getAllLeavess();
+    
     }
 
     public LeaveDetails getLeaveDetailsOnId(Integer id) {

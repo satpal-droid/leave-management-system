@@ -1,18 +1,19 @@
 package com.lms.repository;
 
-import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import com.lms.models.LeaveDetails;
 
 @Repository(value = "leaveManageRepository")
-public interface LeaveManageRepository extends JpaRepository<LeaveDetails, Serializable> {
+public interface LeaveManageRepository extends PagingAndSortingRepository<LeaveDetails, Integer> {
 
-
+    @Query(value = "select * from leave_details", nativeQuery = true)
+    public List<LeaveDetails> getAllLeavess();
+    // public Page<LeaveDetails> findAll(Pageable pageable);
 
     @Query(value = "select total_leaves from total_leaves", nativeQuery = true)
     Integer totalLeaves();

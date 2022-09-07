@@ -97,7 +97,7 @@
 					<tbody>
 					  <tr th:each="leaveInfo,iterStat : ${leavesList}">
 					  
-	                	<td th:utext="${#dates.format(leaveInfo.fromDate,'dd MMM yyyy')}"></td>
+						<td th:utext="${#dates.format(leaveInfo.fromDate,'dd MMM yyyy')}"></td>
 	                	<td th:utext="${#dates.format(leaveInfo.toDate,'dd MMM yyyy')}"></td>
 	                	<td th:text="${leaveInfo.duration}"></td>
 	                	<td th:text="${leaveInfo.leaveType}"></td>

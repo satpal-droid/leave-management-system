@@ -13,11 +13,11 @@ import com.lowagie.text.pdf.*;
  
 public class UserPDFExporter {
     private List<LeaveDetails> leaveDetails;
-     
+        
     public UserPDFExporter(List<LeaveDetails> leaveDetails) {
         this.leaveDetails = leaveDetails;
     }
- 
+    
     private void writeTableHeader(PdfPTable table) {
         PdfPCell cell = new PdfPCell();
         cell.setBackgroundColor(Color.BLUE);
@@ -25,6 +25,9 @@ public class UserPDFExporter {
          
         Font font = FontFactory.getFont(FontFactory.HELVETICA);
         font.setColor(Color.WHITE);
+        cell.setPhrase(new Phrase(" Name", font));
+         
+        table.addCell(cell);
          
         cell.setPhrase(new Phrase(" FROM DATE", font));
          
@@ -48,6 +51,7 @@ public class UserPDFExporter {
      
     private void writeTableData(PdfPTable table) {
         for (LeaveDetails leaveDetails : leaveDetails) {
+            table.addCell(String.valueOf(leaveDetails.getEmployeeName()));
             table.addCell(String.valueOf(leaveDetails.getFromDate()));
             table.addCell(String.valueOf(leaveDetails.getToDate()));
             table.addCell(String.valueOf(leaveDetails.getDuration()));
@@ -64,23 +68,17 @@ public class UserPDFExporter {
         document.open();
         Font font = FontFactory.getFont(FontFactory.HELVETICA_BOLD);
         font.setSize(18);
-        font.setColor(Color.BLUE);
-         
+        font.setColor(Color.BLUE);        
         Paragraph p = new Paragraph("List of Users", font);
-        p.setAlignment(Paragraph.ALIGN_CENTER);
-         
-        document.add(p);
-         
-        PdfPTable table = new PdfPTable(6);
+        p.setAlignment(Paragraph.ALIGN_CENTER);        
+        document.add(p);        
+        PdfPTable table = new PdfPTable(7);
         table.setWidthPercentage(100f);
-        table.setWidths(new float[] {3.5f, 3.5f, 3.0f, 3.0f, 3.5f,3.5f});
-        table.setSpacingBefore(10);
-         
+        table.setWidths(new float[] {3.5f,3.5f, 3.5f, 3.0f, 3.0f, 3.5f,3.5f});
+        table.setSpacingBefore(10);        
         writeTableHeader(table);
-        writeTableData(table);
-         
-        document.add(table);
-         
+        writeTableData(table);         
+        document.add(table);         
         document.close();
          
     }

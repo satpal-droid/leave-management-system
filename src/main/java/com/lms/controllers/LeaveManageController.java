@@ -37,6 +37,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletResponse;
 import com.lowagie.text.DocumentException;
 
+
 @Controller
 public class LeaveManageController {
 
@@ -145,7 +146,33 @@ public class LeaveManageController {
 		Integer activeLeaves1 = leaveManageService.countAllLeaves(userInfo.getEmail());;
 		Integer balancedLeaves = (totalLeaves-activeLeaves1) ;
 		
-		if(duration<balancedLeaves){
+		if(duration>balancedLeaves){			
+			mav.addObject("errorMessage", "You cannot apply leave more than your balanced leaves!");
+			mav.setView(new RedirectView("/user/apply-leave"));
+		}
+		else{
+
+			leaveDetails.setUsername(userInfo.getEmail());
+			leaveDetails.setEmployeeName(userInfo.getFirstName() + " " + userInfo.getLastName());
+			leaveManageService.applyLeave(leaveDetails);
+			mav.addObject("successMessage", "Your Leave Request is registered!");
+			mav.setView(new RedirectView("/user/my-leaves"));
+		}
+	 
+	
+	}
+	else if((activeLeaves != null)&&(rejectedLeaves!=null)){
+
+		Integer activeLeaves1 = leaveManageService.countAllLeaves(userInfo.getEmail());;
+		Integer balancedLeaves = (totalLeaves-activeLeaves1) ;
+		System.out.println(balancedLeaves);
+		
+		if(duration>balancedLeaves){			
+			mav.addObject("errorMessage", "You cannot apply leave more than your balanced leaves!");
+			mav.setView(new RedirectView("/user/apply-leave"));
+		}
+		else{
+
 			leaveDetails.setUsername(userInfo.getEmail());
 			leaveDetails.setEmployeeName(userInfo.getFirstName() + " " + userInfo.getLastName());
 			leaveManageService.applyLeave(leaveDetails);
@@ -156,6 +183,15 @@ public class LeaveManageController {
 	}
 
 	else if((activeLeaves==null)&&(rejectedLeaves==null)){
+	
+		leaveDetails.setUsername(userInfo.getEmail());
+		leaveDetails.setEmployeeName(userInfo.getFirstName() + " " + userInfo.getLastName());
+		leaveManageService.applyLeave(leaveDetails);
+		mav.addObject("successMessage", "Your Leave Request is registered!");
+		mav.setView(new RedirectView("/user/my-leaves"));
+
+	}
+	else if((activeLeaves!=null)&&(rejectedLeaves!=null)){
 	
 		leaveDetails.setUsername(userInfo.getEmail());
 		leaveDetails.setEmployeeName(userInfo.getFirstName() + " " + userInfo.getLastName());
@@ -235,8 +271,8 @@ public class LeaveManageController {
     public ModelAndView showMyLeaves(ModelAndView mav) {
 
 	UserInfo userInfo = userInfoService.getUserInfo();
-	List<LeaveDetails> leavesList = leaveManageService.getAllLeavesOfUser(userInfo.getEmail());
-	mav.addObject("leavesList", leavesList);
+	List<LeaveDetails> leavesList1 = leaveManageService.getAllLeavesOfUser(userInfo.getEmail());
+	mav.addObject("leavesList", leavesList1);
 	mav.setViewName("myLeaves");
 	return mav;
     }
@@ -249,25 +285,27 @@ public class LeaveManageController {
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
 		response.setHeader(headerKey, headerValue);
-		String username = SecurityContextHolder.getContext().getAuthentication().getName();
-	    UserInfo userInfo = userInfoService.findUserByEmail(username);
-        List<LeaveDetails> leaveDetails = leaveManageService.getAllLeavesOfUser(userInfo.getEmail());  
-        UserPDFExporter exporter = new UserPDFExporter(leaveDetails);
-        exporter.export(response);
+		// String username = SecurityContextHolder.getContext().getAuthentication().getName();
+	    // UserInfo userInfo = userInfoService.findUserByEmail(username);
+        // List<LeaveDetails> leaveDetails = leaveManageService.getAllLeavesOfUser(userInfo.getEmail());  
+		List<LeaveDetails> leaveDetails1 = leaveManageService.getAllLeaves();  
+        // UserPDFExporter exporter = new UserPDFExporter(leaveDetails);
+		UserPDFExporter exporter1 = new UserPDFExporter(leaveDetails1);
+        // exporter.export(response);
+		exporter1.export(response);
+
+		
          
     }
 		
 	@RequestMapping(value ="/user/allLeaves" , method = RequestMethod.GET)
     public ModelAndView allLeaves(ModelAndView mv){
-
-
-		List<LeaveDetails> leavesList = leaveManageService.getAllLeaves();
-		System.out.println(leavesList);
-		mv.addObject("leaveDetails", "leavesList");
+		
+		List<LeaveDetails> LeaveDetails1 = leaveManageService.getAllLeaves();
+		System.out.println(LeaveDetails1);
+		mv.addObject("leavesList", LeaveDetails1);
 		mv.setViewName("allLeaves");
 		return mv;
-
-
 	}
 	
 	@RequestMapping(value ="/user/acceptedLeaves" , method = RequestMethod.GET)
@@ -275,8 +313,6 @@ public class LeaveManageController {
 
 		mv.setViewName("acceptedLeaves");
 		return mv;
-
-
 	}
 	@RequestMapping(value ="/user/rejectedLeaves" , method = RequestMethod.GET)
     public ModelAndView rejectedLeaves(ModelAndView mv){

@@ -82,6 +82,12 @@
 		<artifactId>openpdf</artifactId>
 		<version>1.3.8</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.github.paginationspring/pagination -->
+		<dependency>
+		<groupId>com.github.paginationspring</groupId>
+		<artifactId>pagination</artifactId>
+		<version>1.0.3</version>
+		</dependency>
 		<!-- <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
